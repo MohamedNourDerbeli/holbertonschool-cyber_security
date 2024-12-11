@@ -9,6 +9,8 @@ This report outlines the findings from an investigation of the `holbertonschool.
 4. Perform DNS Record Analysis to ensure proper domain configuration.
 
 ---
+![screencapture-shodan-io-search-report-2024-12-11-12_16_37](https://github.com/user-attachments/assets/85e3940a-81cf-412e-ba9e-0d81818b06db)
+---
 
 ## Findings
 
