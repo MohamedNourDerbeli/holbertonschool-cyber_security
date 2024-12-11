@@ -6,6 +6,7 @@ This report outlines the findings from an investigation of the `holbertonschool.
 1. Collect all IP ranges associated with the `holbertonschool.com` domain.
 2. Identify the technologies and frameworks used within all subdomains of `holbertonschool.com`.
 3. Document registrant details and contact information.
+4. Perform DNS Record Analysis to ensure proper domain configuration.
 
 ---
 
@@ -139,29 +140,95 @@ The following technologies, services, and frameworks were identified for `holber
 #### Advertising and Marketing
 - **Twitter Ads:** Advertising integration for the domain.
 
-### 4. Registrant Information
+### 4. DNS Record Analysis
+#### A Records
+- **99.83.190.102**
+- **75.2.70.75**
+
+#### AAAA Records
+- No records found. IPv6 support is recommended for enhanced compatibility.
+
+#### MX Records
+- **1 aspmx.l.google.com**
+- **10 alt3.aspmx.l.google.com**
+- **10 alt4.aspmx.l.google.com**
+- **5 alt1.aspmx.l.google.com**
+- **5 alt2.aspmx.l.google.com**
+
+#### TXT Records
+- **1C8BC5F558**
+- **MS=BB8A869E4E8A47D208F560DE7D83F199D1BB8F4F**
+- **apple-domain-verification=sqTGlUgV9vVTnBuB**
+- **dropbox-domain-verification=pvxn88z3e06i**
+- **google-site-verification=lnffgexG_GGal6Fa53z0Ve4dJY4z4GXAmy1I2_ldotk**
+- **intacct-esk=A3E9DCEA8FB6B747E0539A220D0A9719**
+- **loaderio=67a0fbf5fb42755902d5415639d826a6**
+- **stripe-verification=e0f957fde60d97f6fd922d8599916a296577b25f28fa1e4caa0730a6b2832eed**
+- **v=spf1 include:mailgun.org include:_spf.google.com include:spf.exclaimer.net include:mail.zendesk.com include:servers.mcsv.net include:_spf.intacct.com ip4:213.32.162.182 ip4:87.253.235.215 ip4:104.209.35.28 ip4:191.237.4.149 ~all**
+- **zapier-domain-verification-challenge=20fd6ef9-5b6e-48c8-bb95-a24a7fb61ec4**
+
+#### NS Records
+- **ns-1455.awsdns-53.org**
+- **ns-1619.awsdns-10.co.uk**
+- **ns-176.awsdns-22.com**
+- **ns-792.awsdns-35.net**
+
+#### CNAME Records
+- None found. CNAME records may be required for subdomain aliases.
+
+#### SOA Records
+- **Primary NS:** ns-1455.awsdns-53.org
+- **Contact:** awsdns-hostmaster.amazon.com
+- **Serial:** 1
+- **Refresh:** 7200 seconds
+- **Retry:** 900 seconds
+- **Expiry:** 1209600 seconds
+- **TTL:** 86400 seconds
+
+### 5. Registrant Information
 Detailed registrant, administrative, and technical contact information for `holbertonschool.com`:
 
 #### Registrant Details
-- **Name:** Holberton Inc
-- **Organization:** Holberton Inc
-- **Address:** 5670 Wilshire Blvd Suite 1802, Los Angeles, CA 90036, US
-- **Phone:** +1.4156227634
-- **Email:** 7da97d10931ddb501d08b8f88c7384bc-37846707@contact.gandi.net
+- **Name:** Holberton Inc  
+- **Organization:** Holberton Inc  
+- **Street:** 5670 Wilshire Blvd suite 1802  
+- **City:** Los Angeles  
+- **State/Province:** (Not specified)  
+- **Postal Code:** 90036  
+- **Country:** US  
+- **Phone:** +1.4156227634  
+- **Phone Ext:** (Not specified)  
+- **Fax:** (Not specified)  
+- **Fax Ext:** (Not specified)  
+- **Email:** [7da97d10931ddb501d08b8f88c7384bc-37846707@contact.gandi.net](mailto:7da97d10931ddb501d08b8f88c7384bc-37846707@contact.gandi.net)  
 
 #### Administrative Contact
-- **Name:** Holberton Inc
-- **Organization:** Holberton Inc
-- **Address:** 5670 Wilshire Blvd Suite 1802, Los Angeles, CA 90036, US
-- **Phone:** +1.4153580819
-- **Email:** 624a82de74a4fa2b64fb39bbe08b290d-37876671@contact.gandi.net
+- **Name:** Holberton Inc  
+- **Organization:** Holberton Inc  
+- **Street:** 5670 Wilshire Blvd Suite 1802  
+- **City:** Los Angeles  
+- **State/Province:** California  
+- **Postal Code:** 90036  
+- **Country:** US  
+- **Phone:** +1.4153580819  
+- **Phone Ext:** (Not specified)  
+- **Fax:** (Not specified)  
+- **Fax Ext:** (Not specified)  
+- **Email:** [624a82de74a4fa2b64fb39bbe08b290d-37876671@contact.gandi.net](mailto:624a82de74a4fa2b64fb39bbe08b290d-37876671@contact.gandi.net)  
 
 #### Technical Contact
-- **Name:** Holberton Inc
-- **Organization:** Holberton Inc
-- **Address:** 5670 Wilshire Blvd Suite 1802, Los Angeles, CA 90036, US
-- **Phone:** +1.4153580819
-- **Email:** 2c420b43d982c37b7621f2015f3e107b-37876677@contact.gandi.net
+- **Name:** Holberton Inc  
+- **Organization:** Holberton Inc  
+- **Street:** 5670 Wilshire Blvd Suite 1802  
+- **City:** Los Angeles  
+- **State/Province:** California  
+- **Postal Code:** 90036  
+- **Country:** US  
+- **Phone:** +1.4153580819  
+- **Phone Ext:** (Not specified)  
+- **Fax:** (Not specified)  
+- **Fax Ext:** (Not specified)  
+- **Email:** [2c420b43d982c37b7621f2015f3e107b-37876677@contact.gandi.net](mailto:2c420b43d982c37b7621f2015f3e107b-37876677@contact.gandi.net)  
 
 ---
 
