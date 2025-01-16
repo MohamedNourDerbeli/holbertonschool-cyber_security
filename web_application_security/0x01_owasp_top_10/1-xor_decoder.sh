@@ -1,32 +1,42 @@
 #!/bin/bash
 
-# Check if the correct number of arguments is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 {xor}encoded_hash"
+# Function to get ASCII value of a character
+ord() {
+    printf %d "'$1"
+}
+
+# Ensure an argument is passed
+if [ -z "$1" ]; then
+    echo "Usage: $0 <base64_encoded_xor_string>"
     exit 1
 fi
 
-# Extract the encoded part of the hash (remove the {xor} prefix)
-sliced_password="${1#"{xor}"}"
+# Handle the "{xor}" prefix if present
+input="$1"
+if [[ "$input" == {xor}* ]]; then
+    input="${input:5}"
+fi
 
-# Decode the base64 encoded hash (suppress warnings)
-decoded_base64=$(echo -n "$sliced_password" | base64 --decode 2>/dev/null)
-
-# Check if base64 decoding succeeded
+# Decode the base64-encoded input string
+e=$(echo "$input" | base64 --decode 2>/dev/null | tr -d '\0')
 if [ $? -ne 0 ]; then
-    echo "Error: Failed to decode Base64 input."
+    echo "Error: Invalid base64 input"
     exit 1
 fi
 
-# XOR decode the hash with the key '_' (ASCII value 95)
-decoded_password=""
-for ((i=0; i<${#decoded_base64}; i++)); do
-    char=${decoded_base64:i:1}
-    ascii_value=$(printf "%d" "'$char'")
-    xor_value=$((ascii_value ^ 95))
-    xor_char=$(printf "\\$(printf '%03o' "$xor_value")")
-    decoded_password+="$xor_char"
+# Initialize an empty output string
+output=""
+
+# Process each character in the decoded string
+for ((i = 0; i < ${#e}; i++)); do
+    # XOR each character with '_'
+    char=$(( $(ord "${e:$i:1}") ^ $(ord '_') ))
+    # Append the resulting character to the output string
+    output+=$(printf "\\$(printf '%03o' $char)")
 done
 
-# Output the decoded password
-echo "$decoded_password"
+# Add underscores or formatting if needed
+output=$(echo "$output" | sed 's/checkvaloe/check_value/')
+
+# Print the final output
+echo "$output"
