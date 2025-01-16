@@ -35,8 +35,5 @@ for ((i = 0; i < ${#e}; i++)); do
     output+=$(printf "\\$(printf '%03o' $char)")
 done
 
-# Add underscores or formatting if needed
-output=$(echo "$output" | sed 's/checkvaloe/check_value/')
-
 # Print the final output
 echo "$output"
