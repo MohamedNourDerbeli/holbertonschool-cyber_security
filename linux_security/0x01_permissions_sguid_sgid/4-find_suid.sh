@@ -1,2 +1,2 @@
 #!/bin/bash
-find "$target_directory" -type f -perm -4000 2>/dev/null
+find "$1" -type f -perm -4000 2>/dev/null
