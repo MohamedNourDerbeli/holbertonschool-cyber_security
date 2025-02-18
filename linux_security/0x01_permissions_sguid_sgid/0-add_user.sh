@@ -1,3 +1,3 @@
 #!/bin/bash
-
-useradd $1 -p $2
+useradd $1
+passwd $2
