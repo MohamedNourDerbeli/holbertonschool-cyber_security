@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod a+r $1
+find $1 -type f -exec chmod o-w {} \;
