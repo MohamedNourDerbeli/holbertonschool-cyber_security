@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo semanage fcontext -l 
+semanage user -l
