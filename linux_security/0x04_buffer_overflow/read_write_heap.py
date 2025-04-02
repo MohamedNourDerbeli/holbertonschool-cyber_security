@@ -19,6 +19,7 @@ import sys
 import os
 from typing import Tuple
 
+
 def validate_inputs(pid: str, search_str: str, replace_str: str) -> Tuple[int, str, str]:
     """Validate and convert all inputs to required formats."""
     try:
