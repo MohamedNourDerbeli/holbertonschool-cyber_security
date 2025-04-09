@@ -1,12 +1,20 @@
 #!/bin/bash
 
-# Define the log file to analyze
-LOG_FILE="/var/log/auth.log"
+# Simple SSH log analyzer that counts message patterns
+# Usage: ./0-service.sh
 
-# Analyze the log file for service-related entries
-grep -E "sshd|pam_unix|systemd" "$LOG_FILE" | \
-    awk '{print $5}' | \
-    sed 's/[:,]//g' | \
-    sort | \
-    uniq -c | \
-    sort -nr
+LOG_FILE="auth.log"
+
+if [ ! -f "$LOG_FILE" ]; then
+  echo "Error: $LOG_FILE not found"
+  exit 1
+fi
+
+# Process the log file and count patterns
+grep "sshd" "$LOG_FILE" | \
+  sed -E 's/.*(pam_unix\(sshd:[^:]*).*/\1:/' | \
+  sed -E 's/.*(Failed|Invalid|Accepted|error:|Received|PAM|Bad|Exiting|Server|subsystem|reverse|Address|Did|new|changed|change|syslogin_perform_logout:|[A-Z][a-z]+).*/\1/' | \
+  sort | uniq -c | sort -nr | \
+  awk '{printf "%6d %s\n", $1, $2}'
+
+exit 0
