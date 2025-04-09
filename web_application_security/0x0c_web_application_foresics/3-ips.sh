@@ -1,4 +1,5 @@
 #!/bin/bash
 
 # Extract all IPs with successful logins, count unique ones
-grep "Accepted" auth.log | grep "sshd" | awk '{print $11}' | sort -u | wc -l
+grep "Accepted password for root" auth.log | awk '{print $(NF-3)}' | sort | uniq | wc -l
+
