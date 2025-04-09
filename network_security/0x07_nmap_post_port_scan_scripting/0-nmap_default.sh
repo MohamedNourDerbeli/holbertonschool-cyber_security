@@ -1,5 +1,2 @@
 #!/bin/bash
-
-TARGET="$1"
-
-nmap -sC -sV -Pn "$TARGET"
+nmap -sC -sV -Pn "$1"
