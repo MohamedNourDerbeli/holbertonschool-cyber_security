@@ -1,4 +1,3 @@
 #!/bin/bash
 
-
-grep "useradd" auth.log| awk '{print $8}' | awk -F= '{print $2}' | sort | paste -sd -
+grep "useradd" auth.log | awk -F'name=' '{print $2}' | sort | cut -d',' -f1 | paste -sd, -
