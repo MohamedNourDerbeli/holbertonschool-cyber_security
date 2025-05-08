@@ -1,6 +1,7 @@
 class HelloWorld 
     def print_hello
-        puts "Hello World!"
+        message = "Hello World!"
+        puts message
     end
 end
 
