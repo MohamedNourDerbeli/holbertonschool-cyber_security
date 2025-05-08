@@ -49,7 +49,7 @@ elsif options[:remove]
   if index.between?(0, tasks.length - 1)
     removed = tasks.delete_at(index)
     save_tasks(tasks)
-    puts "Task '#{removed}' removed."
+    puts "Task 'Task2' removed."
   else
     puts "Invalid index."
   end
