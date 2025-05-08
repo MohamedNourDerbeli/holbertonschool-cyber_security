@@ -1,86 +1,38 @@
-#!/usr/bin/env ruby
+require 'open-uri'
+require 'uri'
+require 'fileutils'
 
-require 'optparse'
-
-class TaskManager
-  TASKS_FILE = 'tasks.txt'
-
-  def initialize
-    load_tasks
+def download_file(url, local_path)
+  # Validate URL
+  begin
+    uri = URI.parse(url)
+    raise "Invalid URL" unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+  rescue => e
+    puts "Error: #{e.message}"
+    return
   end
 
-  def add(task)
-    if @tasks.include?(task)
-      puts "Task '#{task}' already exists."
-    else
-      @tasks << task
-      save_tasks
-      puts "Task '#{task}' added."
-    end
-  end
+  # Ensure the directory for the local file exists
+  FileUtils.mkdir_p(File.dirname(local_path))
 
-  def list
-    if @tasks.empty?
-      puts "No tasks found."
-    else
-      puts "Tasks:"
-      @tasks.each_with_index do |task, index|
-        puts "#{index + 1}. #{task}"
+  puts "Downloading file from #{url}..."
+  begin
+    URI.open(url) do |file|
+      File.open(local_path, 'wb') do |local_file|
+        local_file.write(file.read)
       end
     end
-  end
-
-  def remove(index)
-    if index.between?(1, @tasks.size)
-      removed_task = @tasks.delete_at(index - 1)
-      save_tasks
-      puts "Task '#{removed_task}' removed."
-    else
-      puts "Invalid index. Please provide a number between 1 and #{@tasks.size}."
-    end
-  end
-
-  private
-
-  def load_tasks
-    @tasks = File.exist?(TASKS_FILE) ? File.readlines(TASKS_FILE).map(&:chomp) : []
-  end
-
-  def save_tasks
-    File.write(TASKS_FILE, @tasks.join("\n"))
+    puts "File downloaded and saved to #{local_path}."
+  rescue => e
+    puts "Error downloading file: #{e.message}"
   end
 end
 
-options = {}
-OptionParser.new do |opts|
-  opts.banner = "Usage: cli.rb [options]"
-
-  opts.on("-a", "--add TASK", "Add a new task") do |task|
-    options[:add] = task
-  end
-
-  opts.on("-l", "--list", "List all tasks") do
-    options[:list] = true
-  end
-
-  opts.on("-r", "--remove INDEX", "Remove a task by index") do |index|
-    options[:remove] = index.to_i
-  end
-
-  opts.on("-h", "--help", "Show help") do
-    puts opts
-    exit
-  end
-end.parse!
-
-task_manager = TaskManager.new
-
-if options[:add]
-  task_manager.add(options[:add])
-elsif options[:list]
-  task_manager.list
-elsif options[:remove]
-  task_manager.remove(options[:remove])
+# Main script execution
+if ARGV.length != 2
+  puts "Usage: #{File.basename(__FILE__)} URL LOCAL_FILE_PATH"
 else
-  puts "No option provided. Use -h for help."
+  url = ARGV[0]
+  local_path = ARGV[1]
+  download_file(url, local_path)
 end
