@@ -8,7 +8,7 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: cli.rb [options]"
 
-  opts.on('-a', '--add=TASK', 'Add a new task') do |task|
+  opts.on('-a', '--add TASK', 'Add a new task') do |task|
     options[:add] = task
   end
 
@@ -16,7 +16,7 @@ OptionParser.new do |opts|
     options[:list] = true
   end
 
-  opts.on('-r', '--remove=INDEX', Integer, 'Remove a task by index') do |index|
+  opts.on('-r', '--remove INDEX', Integer, 'Remove a task by index') do |index|
     options[:remove] = index
   end
 
