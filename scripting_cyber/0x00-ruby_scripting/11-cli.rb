@@ -1,58 +1,18 @@
+#!/usr/bin/env ruby
 require 'optparse'
+require 'fileutils'
 
-# File to store tasks
 TASKS_FILE = 'tasks.txt'
 
-# Load tasks from the file or initialize an empty array
 def load_tasks
-  if File.exist?(TASKS_FILE)
-    File.readlines(TASKS_FILE).map(&:chomp)
-  else
-    []
-  end
+  return [] unless File.exist?(TASKS_FILE)
+  File.readlines(TASKS_FILE, chomp: true)
 end
 
-# Save tasks to the file
 def save_tasks(tasks)
-  File.open(TASKS_FILE, 'w') do |file|
-    tasks.each { |task| file.puts(task) }
-  end
+  File.open(TASKS_FILE, 'w') { |file| file.puts(tasks) }
 end
 
-# Add a new task
-def add_task(task)
-  tasks = load_tasks
-  tasks << task
-  save_tasks(tasks)
-  puts "Task '#{task}' added."
-end
-
-# List all tasks
-def list_tasks
-  tasks = load_tasks
-  if tasks.empty?
-    puts "No tasks found."
-  else
-    puts "Tasks:"
-    tasks.each_with_index do |task, index|
-      puts "#{index + 1}. #{task}"
-    end
-  end
-end
-
-# Remove a task by index
-def remove_task(index)
-  tasks = load_tasks
-  if index < 1 || index > tasks.size
-    puts "Error: Invalid task index."
-  else
-    removed_task = tasks.delete_at(index - 1)
-    save_tasks(tasks)
-    puts "Task '#{removed_task}' removed."
-  end
-end
-
-# CLI options parsing
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: cli.rb [options]"
@@ -75,14 +35,24 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-# Handle options
+tasks = load_tasks
+
 if options[:add]
-  add_task(options[:add])
+  tasks << options[:add]
+  save_tasks(tasks)
+  puts "Task '#{options[:add]}' added."
 elsif options[:list]
-  list_tasks
+  puts "Tasks:"
+  tasks.each_with_index { |task, i| puts "#{i + 1}. #{task}" }
 elsif options[:remove]
-  remove_task(options[:remove])
+  index = options[:remove] - 1
+  if index.between?(0, tasks.length - 1)
+    removed = tasks.delete_at(index)
+    save_tasks(tasks)
+    puts "Task '#{removed}' removed."
+  else
+    puts "Invalid index."
+  end
 else
-  puts "Usage: cli.rb [options]"
-  puts "Run with -h for help."
+  puts "Use -h for help."
 end
