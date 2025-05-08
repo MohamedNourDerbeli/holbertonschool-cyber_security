@@ -1,9 +1,6 @@
+# 2-prime.rb
 require 'prime'
-def prime(number)
 
-if Prime.instance.prime?(number)
-    puts "true"
-else
-    puts "false" 
-end
+def prime(number)
+  Prime.prime?(number)
 end
