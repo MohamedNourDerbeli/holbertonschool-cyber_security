@@ -1,5 +1,3 @@
-# 8-post.rb
-
 require 'net/http'
 require 'uri'
 require 'json'
@@ -18,7 +16,11 @@ def post_request(url, body_params)
 
   begin
     parsed = JSON.parse(response.body)
-    puts "Response body:\n#{JSON.pretty_generate(parsed)}"
+    if parsed.empty?
+      puts "Response body:\n{}"
+    else
+      puts "Response body:\n#{JSON.pretty_generate(parsed)}"
+    end
   rescue JSON::ParserError
     puts "Response body:\n#{response.body}"
   end
