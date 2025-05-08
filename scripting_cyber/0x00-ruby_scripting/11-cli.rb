@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 require 'optparse'
-require 'fileutils'
 
 TASKS_FILE = 'tasks.txt'
-
 options = {}
+
 OptionParser.new do |opts|
   opts.banner = "Usage: cli.rb [options]"
 
@@ -27,27 +26,31 @@ OptionParser.new do |opts|
 end.parse!
 
 # Ensure the tasks file exists
-FileUtils.touch(TASKS_FILE)
+File.write(TASKS_FILE, '', mode: 'a')
+
+tasks = File.readlines(TASKS_FILE, chomp: true)
 
 if options[:add]
-  File.open(TASKS_FILE, 'a') { |f| f.puts(options[:add]) }
+  tasks << options[:add]
+  File.write(TASKS_FILE, tasks.join("\n") + "\n")
   puts "Task '#{options[:add]}' added."
+
 elsif options[:list]
-  tasks = File.readlines(TASKS_FILE, chomp: true)
   puts "Tasks:"
   tasks.each_with_index do |task, index|
     puts "#{index + 1}. #{task}"
   end
+
 elsif options[:remove]
-  tasks = File.readlines(TASKS_FILE, chomp: true)
   index = options[:remove] - 1
-  if index.between?(0, tasks.length - 1)
-    removed_task = tasks.delete_at(index)
-    File.open(TASKS_FILE, 'w') { |f| f.puts(tasks) }
-    puts "Task '#{removed_task}' removed."
+  if index >= 0 && index < tasks.length
+    removed = tasks.delete_at(index)
+    File.write(TASKS_FILE, tasks.join("\n") + "\n")
+    puts "Task '#{removed}' removed."
   else
-    puts "Invalid index: #{options[:remove]}"
+    puts "Invalid task index."
   end
-else
-  puts "No option provided. Use -h for help."
+
+elsif options.empty?
+  puts "Use -h or --help for usage."
 end
