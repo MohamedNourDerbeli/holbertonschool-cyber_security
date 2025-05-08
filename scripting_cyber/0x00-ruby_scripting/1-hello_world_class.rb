@@ -1,7 +1,10 @@
-class HelloWorld 
-    def print_hello
-        message = "Hello World!"
-        puts message
+class HelloWorld
+    def initialize
+      @message = "Hello, World!"
     end
-end
-
+  
+    def print_hello
+      puts @message
+    end
+  end
+  
