@@ -1,15 +1,46 @@
 #!/usr/bin/env ruby
+
 require 'optparse'
-require 'fileutils'
 
-TASKS_FILE = 'tasks.txt'
+class TaskManager
+  TASKS_FILE = 'tasks.txt'
 
-# Ensure the file exists
-FileUtils.touch(TASKS_FILE)
+  def initialize
+    @tasks = File.exist?(TASKS_FILE) ? File.readlines(TASKS_FILE).map(&:chomp) : []
+  end
+
+  def add(task)
+    @tasks << task
+    save_tasks
+    puts "Task '#{task}' added."
+  end
+
+  def list
+    @tasks.each_with_index do |task, index|
+      puts "#{index + 1}. #{task}"
+    end
+  end
+
+  def remove(index)
+    if index.between?(1, @tasks.size)
+      removed_task = @tasks.delete_at(index - 1)
+      save_tasks
+      puts "Task '#{removed_task}' removed."
+    else
+      puts "Invalid index. Please provide a number between 1 and #{@tasks.size}."
+    end
+  end
+
+  private
+
+  def save_tasks
+    File.write(TASKS_FILE, @tasks.join("\n"))
+  end
+end
 
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: cli.rb [options]"
+  opts.banner = "Usage: #{File.basename($0)} [options]"
 
   opts.on("-a", "--add TASK", "Add a new task") do |task|
     options[:add] = task
@@ -19,8 +50,8 @@ OptionParser.new do |opts|
     options[:list] = true
   end
 
-  opts.on("-r", "--remove INDEX", Integer, "Remove a task by index") do |index|
-    options[:remove] = index
+  opts.on("-r", "--remove INDEX", "Remove a task by index") do |index|
+    options[:remove] = index.to_i
   end
 
   opts.on("-h", "--help", "Show help") do
@@ -29,34 +60,14 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-tasks = File.readlines(TASKS_FILE, chomp: true)
+task_manager = TaskManager.new
 
 if options[:add]
-  if tasks.include?(options[:add])
-    puts "Task '#{options[:add]}' already exists."
-  else
-    tasks << options[:add]
-    File.write(TASKS_FILE, tasks.join("\n") + "\n")
-    puts "Task '#{options[:add]}' added."
-  end
+  task_manager.add(options[:add])
 elsif options[:list]
-  puts "Tasks:"
-  tasks.each_with_index do |task, index|
-    puts "#{index + 1}. #{task}"
-  end
+  task_manager.list
 elsif options[:remove]
-  index = options[:remove].to_i
-  if index >= 1 && index <= tasks.size
-    removed = tasks.delete_at(index - 1)
-    File.write(TASKS_FILE, tasks.join("\n") + "\n")
-    puts "Task '#{removed}' removed."
-  else
-    puts "Invalid task index."
-  end
+  task_manager.remove(options[:remove])
 else
-  puts "Usage: cli.rb [options]"
-  puts "    -a, --add TASK                   Add a new task"
-  puts "    -l, --list                       List all tasks"
-  puts "    -r, --remove INDEX               Remove a task by index"
-  puts "    -h, --help                       Show help"
+  puts "No option provided. Use -h for help."
 end
