@@ -2,16 +2,24 @@
 
 require 'net/http'
 require 'uri'
+require 'json'
 
 def post_request(url, body_params)
   uri = URI.parse(url)
-  
-  # Send the POST request with form parameters
-  response = Net::HTTP.post_form(uri, body_params)
-  
-  # Print the status code and message
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = (uri.scheme == "https")
+
+  request = Net::HTTP::Post.new(uri.path, { 'Content-Type' => 'application/json' })
+  request.body = body_params.to_json
+
+  response = http.request(request)
+
   puts "Response status: #{response.code} #{response.message}"
-  
-  # Print the body of the response
-  puts "Response body:\n#{response.body}"
+
+  begin
+    parsed = JSON.parse(response.body)
+    puts "Response body:\n#{JSON.pretty_generate(parsed)}"
+  rescue JSON::ParserError
+    puts "Response body:\n#{response.body}"
+  end
 end
