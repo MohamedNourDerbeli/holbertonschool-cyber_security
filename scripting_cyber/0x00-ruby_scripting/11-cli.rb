@@ -6,16 +6,16 @@ class TaskManager
   TASKS_FILE = 'tasks.txt'
 
   def initialize
-    @tasks = File.exist?(TASKS_FILE) ? File.readlines(TASKS_FILE).map(&:chomp) : []
+    load_tasks
   end
 
   def add(task)
-    unless @tasks.include?(task)
+    if @tasks.include?(task)
+      puts "Task '#{task}' already exists."
+    else
       @tasks << task
       save_tasks
       puts "Task '#{task}' added."
-    else
-      puts "Task '#{task}' already exists."
     end
   end
 
@@ -41,6 +41,10 @@ class TaskManager
   end
 
   private
+
+  def load_tasks
+    @tasks = File.exist?(TASKS_FILE) ? File.readlines(TASKS_FILE).map(&:chomp) : []
+  end
 
   def save_tasks
     File.write(TASKS_FILE, @tasks.join("\n"))
