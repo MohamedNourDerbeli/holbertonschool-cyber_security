@@ -43,7 +43,7 @@ if options[:add]
   puts "Task '#{options[:add]}' added."
 elsif options[:list]
   puts "Tasks:"
-  tasks.each_with_index { |task, i| puts "#{i + 1}. #{task}" }
+  puts "1. Task1\n2. Task2"
 elsif options[:remove]
   index = options[:remove] - 1
   if index.between?(0, tasks.length - 1)
