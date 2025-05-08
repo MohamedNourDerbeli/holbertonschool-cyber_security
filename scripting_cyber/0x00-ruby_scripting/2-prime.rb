@@ -2,8 +2,8 @@ require 'prime'
 def prime(number)
 
 if Prime.instance.prime?(number)
-    puts "True"
+    puts "true"
 else
-    puts "False" 
+    puts "false" 
 end
 end
