@@ -10,14 +10,23 @@ class TaskManager
   end
 
   def add(task)
-    @tasks << task
-    save_tasks
-    puts "Task '#{task}' added."
+    unless @tasks.include?(task)
+      @tasks << task
+      save_tasks
+      puts "Task '#{task}' added."
+    else
+      puts "Task '#{task}' already exists."
+    end
   end
 
   def list
-    @tasks.each_with_index do |task, index|
-      puts "#{index + 1}. #{task}"
+    if @tasks.empty?
+      puts "No tasks found."
+    else
+      puts "Tasks:"
+      @tasks.each_with_index do |task, index|
+        puts "#{index + 1}. #{task}"
+      end
     end
   end
 
